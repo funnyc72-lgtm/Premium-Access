@@ -91,14 +91,6 @@
             text-align: center;
             transition: 0.4s;
             backdrop-filter: blur(10px);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .vpn-card:hover {
-            border-color: var(--neon-blue);
-            transform: translateY(-5px);
         }
 
         .vpn-logo {
@@ -106,10 +98,10 @@
             object-fit: contain;
             background: white;
             padding: 5px; border-radius: 12px;
-            margin: 0 auto 15px;
+            margin-bottom: 15px;
         }
 
-        .price { color: var(--gold); font-weight: bold; font-size: 1.3rem; display: block; margin-bottom: 15px; }
+        .price { color: var(--gold); font-weight: bold; font-size: 1.4rem; display: block; margin-bottom: 15px; }
 
         .order-btn {
             background: var(--neon-blue);
@@ -118,12 +110,14 @@
             padding: 10px 0;
             border-radius: 8px;
             font-weight: bold;
+            display: block;
             width: 100%;
             cursor: pointer;
-            transition: 0.3s;
+            text-align: center;
+            text-decoration: none;
         }
 
-        /* Payment Modal */
+        /* Payment Modal/Popup Style */
         .modal {
             display: none;
             position: fixed;
@@ -140,9 +134,10 @@
             padding: 30px;
             border: 1px solid var(--neon-blue);
             width: 90%;
-            max-width: 450px;
+            max-width: 500px;
             border-radius: 20px;
             text-align: center;
+            position: relative;
         }
 
         .payment-method-box {
@@ -151,7 +146,6 @@
             border-radius: 10px;
             margin: 10px 0;
             border-left: 4px solid var(--neon-blue);
-            text-align: left;
         }
 
         .whatsapp-redirect-btn {
@@ -163,7 +157,6 @@
             font-weight: bold;
             display: inline-block;
             margin-top: 20px;
-            width: 80%;
         }
 
         footer {
@@ -174,7 +167,6 @@
 
         @media (max-width: 600px) {
             .vpn-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-            .modal-content { margin: 30% auto; }
         }
     </style>
 </head>
@@ -191,7 +183,7 @@
     <div class="hero-banner">
         <div class="banner-overlay">
             <h2 style="color: var(--neon-blue);">High Performance VPN</h2>
-            <p>প্রিমিয়াম সার্ভার ও সেরা নিরাপত্তার নিশ্চয়তা</p>
+            <p>পেমেন্ট করে হোয়াটসঅ্যাপে নিশ্চিত করুন</p>
         </div>
     </div>
 
@@ -203,16 +195,16 @@
 <div id="paymentModal" class="modal">
     <div class="modal-content">
         <h2 style="color: var(--neon-blue);">Payment Details</h2>
-        <p style="font-size: 0.9rem;">নিচের নাম্বারে টাকা পাঠিয়ে হোয়াটসঅ্যাপে মেসেজ দিন।</p>
+        <p>নিচের যেকোনো একটি নাম্বারে টাকা পাঠিয়ে হোয়াটসঅ্যাপে মেসেজ দিন।</p>
         
-        <div class="payment-method-box"><i class="fas fa-mobile-alt"></i> <strong>bKash:</strong> 01780593483</div>
-        <div class="payment-method-box"><i class="fas fa-mobile-alt"></i> <strong>Nagad:</strong> 01833732284</div>
-        <div class="payment-method-box"><i class="fas fa-mobile-alt"></i> <strong>Rocket:</strong> 013295997768</div>
+        <div class="payment-method-box"><strong>bKash (Personal):</strong> 01780593483</div>
+        <div class="payment-method-box"><strong>Nagad (Personal):</strong> 01833732284</div>
+        <div class="payment-method-box"><strong>Rocket (Personal):</strong> 013295997768</div>
 
-        <p style="font-size: 0.75rem; color: #8b949e; margin-top: 15px;">টাকা পাঠানোর পর নিচের বাটনে ক্লিক করে স্ক্রিনশট দিন।</p>
-        <a id="waLink" href="#" class="whatsapp-redirect-btn"><i class="fab fa-whatsapp"></i> Confirm Order</a>
+        <p style="font-size: 0.8rem; color: #8b949e; margin-top: 15px;">টাকা পাঠানোর পর নিচের বাটনে ক্লিক করে স্ক্রিনশট দিন।</p>
+        <a id="waLink" href="#" class="whatsapp-redirect-btn"><i class="fab fa-whatsapp"></i> Confirm on WhatsApp</a>
         <br><br>
-        <button onclick="closeModal()" style="background:none; color:#ff4d4d; border:none; cursor:pointer;">[ Close ]</button>
+        <button onclick="closeModal()" style="background:none; color:white; border:none; cursor:pointer; text-decoration:underline;">Close</button>
     </div>
 </div>
 
@@ -223,48 +215,42 @@
 
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <script>
-    // আপনার দেওয়া লিস্ট অনুযায়ী ডাটা
     const vpnData = [
         { name: "Nord VPN", validity: "7/9 Days", price: "30৳", logo: "https://upload.wikimedia.org/wikipedia/commons/f/f9/NordVPN_logo.svg" },
         { name: "Express VPN", validity: "7/30 Days", price: "30৳", logo: "https://upload.wikimedia.org/wikipedia/commons/7/7e/ExpressVPN_logo.svg" },
-        { name: "Proton VPN", validity: "14/30 Days", price: "Asking", logo: "https://upload.wikimedia.org/wikipedia/commons/d/d3/Proton_VPN_logo.svg" },
+        { name: "Proton VPN", validity: "14/30 Days", price: "Free", logo: "https://upload.wikimedia.org/wikipedia/commons/d/d3/Proton_VPN_logo.svg" },
         { name: "Hotspot Shield", validity: "7 Days", price: "30৳", logo: "https://upload.wikimedia.org/wikipedia/en/5/52/Hotspot_Shield_logo.png" },
         { name: "Surfshark", validity: "7 Days", price: "30৳", logo: "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/surfshark-vpn-logo-icon.png" },
         { name: "Pure VPN", validity: "7 Days", price: "30৳", logo: "https://static.cdnlogo.com/logos/p/65/purevpn.png" },
         { name: "Norton VPN", validity: "7 Days", price: "30৳", logo: "https://upload.wikimedia.org/wikipedia/commons/e/e5/Avast_logo_2021.svg" },
         { name: "HMA VPN", validity: "7/30 Days", price: "30৳", logo: "https://upload.wikimedia.org/wikipedia/en/d/d4/HideMyAss_logo.svg" },
-        { name: "Octohide VPN", validity: "14 Days", price: "Asking", logo: "https://cdn-icons-png.flaticon.com/512/2092/2092202.png" },
-        { name: "Mysterium", validity: "Available", price: "Asking", logo: "https://www.mysterium.network/images/logo.svg" }
+        { name: "Octohide VPN", validity: "14 Days", price: "Free", logo: "https://cdn-icons-png.flaticon.com/512/2092/2092202.png" },
+        { name: "Mysterium", validity: "Available", price: "Free", logo: "https://www.mysterium.network/images/logo.svg" }
     ];
 
     const listDiv = document.getElementById('vpnList');
     vpnData.forEach(vpn => {
         listDiv.innerHTML += `
             <div class="vpn-card">
-                <div>
-                    <img src="${vpn.logo}" class="vpn-logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2092/2092202.png'">
-                    <div style="font-weight:bold;">${vpn.name}</div>
-                    <div style="font-size:0.8rem; color:#8b949e; margin-bottom:10px;">${vpn.validity}</div>
-                </div>
-                <div>
-                    <span class="price">${vpn.price}</span>
-                    <button class="order-btn" onclick="openPayment('${vpn.name}', '${vpn.price}')">Order Now</button>
-                </div>
+                <img src="${vpn.logo}" class="vpn-logo">
+                <div style="font-weight:bold;">${vpn.name}</div>
+                <div style="font-size:0.8rem; color:#8b949e;">${vpn.validity}</div>
+                <span class="price">${vpn.price}</span>
+                <button class="order-btn" onclick="openPayment('${vpn.name}')">Order Now</button>
             </div>
         `;
     });
 
-    function openPayment(vpnName, price) {
+    function openPayment(vpnName) {
         document.getElementById('paymentModal').style.display = 'block';
-        let msg = (price === "Asking") ? `Price inquiry for ${vpnName}` : `Ordered ${vpnName}. Payment will be sent.`;
-        document.getElementById('waLink').href = `https://wa.me/8801780593483?text=${encodeURIComponent(msg)}`;
+        // পেমেন্ট মেথড দেখার পরই এই লিঙ্ক কাজ করবে
+        document.getElementById('waLink').href = `https://wa.me/8801780593483?text=Order:${vpnName}%20(Payment%20Done)`;
     }
 
     function closeModal() {
         document.getElementById('paymentModal').style.display = 'none';
     }
 
-    // ব্যাকগ্রাউন্ড অ্যানিমেশন
     particlesJS("particles-js", {
         "particles": {
             "number": { "value": 80 },
